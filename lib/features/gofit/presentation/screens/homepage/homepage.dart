@@ -1,13 +1,13 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gofit/features/gofit/domain/entities/exercise_entity.dart';
 
 import '../../../../../dependency_injection.dart';
 import '../../constants/colors.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../exercisepage/exercise_page.dart';
 import 'bloc/exercise_bloc.dart';
+import 'widgets/see_all.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: const BottomNavBar(),
       body: SafeArea(
         child: BlocProvider(
           create: (context) => sl<ExercisesBloc>(),
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
                 return const Center(
                   child: Text(
                     "Initial State",
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: red),
                   ),
                 );
               } else if (state is ExerciseLoadedState) {
@@ -47,16 +47,16 @@ class HomePage extends StatelessWidget {
                                   color: purple,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.sports_gymnastics,
-                                  color: Colors.white,
+                                  color: white,
                                 )),
-                            SizedBox(width: 20),
-                            Text("GoFit"),
-                            SizedBox(width: 180),
-                            Icon(Icons.notifications_active_outlined),
-                            SizedBox(width: 20),
-                            Icon(Icons.bookmark_outline),
+                            const SizedBox(width: 20),
+                            const Text("GoFit"),
+                            const SizedBox(width: 180),
+                            const Icon(Icons.notifications_active_outlined),
+                            const SizedBox(width: 20),
+                            const Icon(Icons.bookmark_outline),
                           ],
                         ),
                         const SizedBox(height: 20),
@@ -68,25 +68,8 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            const Text(
-                              "Featured Workout",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(width: 170),
-                            Text(
-                              "See All",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                color: purple,
-                              ),
-                            ),
-                          ],
+                        SeeAllWorkouts(
+                          text: "Featured Workout",
                         ),
                         const SizedBox(
                           height: 10,
@@ -108,7 +91,7 @@ class HomePage extends StatelessWidget {
                                   width: 240,
                                   height: 240,
                                   decoration: BoxDecoration(
-                                      color: Colors.grey,
+                                      color: grey,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -117,8 +100,8 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Text(
                                         state.exercises[index].exerciseName,
-                                        style: TextStyle(
-                                            color: Colors.white,
+                                        style: const TextStyle(
+                                            color: white,
                                             fontWeight: FontWeight.w700,
                                             fontSize: 20),
                                       ),
@@ -126,14 +109,13 @@ class HomePage extends StatelessWidget {
                                         children: [
                                           Text(
                                             " ${state.exercises[index].duration} | ${state.exercises[index].difficulty} ",
-                                            style: TextStyle(
-                                              color: Colors.white,
+                                            style: const TextStyle(
+                                              color: white,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          // const SizedBox(width: ),
                                           const Icon(Icons.bookmark_outline,
-                                              color: Colors.white),
+                                              color: white),
                                         ],
                                       )
                                     ],
@@ -144,7 +126,7 @@ class HomePage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const ExercisePage(),
+                                          ExercisePage(state.exercises[index]),
                                     ),
                                   );
                                 },
@@ -152,25 +134,8 @@ class HomePage extends StatelessWidget {
                             }),
                           ),
                         ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Workout Levels",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(width: 170),
-                            Text(
-                              "See All",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                color: purple,
-                              ),
-                            ),
-                          ],
+                        SeeAllWorkouts(
+                          text: "Workout Levels",
                         ),
                         const SizedBox(
                           height: 15,
@@ -199,20 +164,12 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Text(
                                         " ${state.exercises[index].duration} | ${state.exercises[index].difficulty} ",
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(color: white),
                                       ),
                                     ],
                                   ),
                                 ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ExercisePage(),
-                                    ),
-                                  );
-                                },
+                                onTap: () {},
                               );
                             }),
                           ),
@@ -227,54 +184,12 @@ class HomePage extends StatelessWidget {
                           scrollDirection: Axis.vertical,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: ((context, index) {
-                            return GestureDetector(
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    top: 5, bottom: 25, left: 5, right: 5),
-                                margin: const EdgeInsets.only(
-                                    right: 10, bottom: 10),
-                                width: 150,
-                                height: 110,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.exercises[index].exerciseName,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          " ${state.exercises[index].duration} | ${state.exercises[index].difficulty} ",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        SizedBox(width: 120),
-                                        const Icon(Icons.bookmark_outline,
-                                            color: Colors.white),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ExercisePage(),
-                                  ),
-                                );
-                              },
-                            );
+                            return listviewreturnedchild(
+                                exerciseName:
+                                    state.exercises[index].exerciseName,
+                                duration: state.exercises[index].duration,
+                                difficulty: state.exercises[index].difficulty,
+                                data: state.exercises[index]);
                           }),
                         ),
                       ],
@@ -293,6 +208,65 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class listviewreturnedchild extends StatelessWidget {
+  listviewreturnedchild({
+    required this.duration,
+    required this.difficulty,
+    required this.exerciseName,
+    required this.data,
+    Key? key,
+  }) : super(key: key);
+  String duration;
+  String difficulty;
+  String exerciseName;
+  ExercisesEntity data;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.only(top: 5, bottom: 25, left: 15, right: 15),
+        margin: const EdgeInsets.only(right: 10, bottom: 10),
+        width: 150,
+        height: 110,
+        decoration:
+            BoxDecoration(color: grey, borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              exerciseName,
+              style: const TextStyle(
+                  color: white, fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "$duration | $difficulty",
+                  style: const TextStyle(
+                    color: white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const Icon(Icons.bookmark_outline, color: white),
+              ],
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExercisePage(data),
+          ),
+        );
+      },
     );
   }
 }
