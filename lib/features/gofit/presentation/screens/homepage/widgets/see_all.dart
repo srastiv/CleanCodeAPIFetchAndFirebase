@@ -14,7 +14,7 @@ class SeeAllWorkouts extends StatelessWidget {
       children: [
         Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 14,
           ),

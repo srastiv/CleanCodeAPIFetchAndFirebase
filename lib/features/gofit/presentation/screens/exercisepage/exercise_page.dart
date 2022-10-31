@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gofit/features/gofit/domain/entities/exercise_entity.dart';
 
+import '../../../domain/entities/exercise_entity.dart';
 import '../../constants/colors.dart';
 
 class ExercisePage extends StatelessWidget {
@@ -13,13 +13,11 @@ class ExercisePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           data.exerciseName,
-          style: TextStyle(color: black),
+          style: const TextStyle(color: black),
         ),
       ),
       body: SafeArea(
         child: Container(
-          // height: 300,
-          width: 300,
           child: ListView.builder(
             itemCount: data.fullBodyStretchingExercises.length,
             itemBuilder: ((context, index) {
@@ -44,6 +42,22 @@ class ExercisePage extends StatelessWidget {
               );
             }),
           ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        height: 50,
+        width: 300,
+        decoration: const BoxDecoration(),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: purple,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          onPressed: () {},
+          child: const Text("START"),
         ),
       ),
     );

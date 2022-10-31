@@ -1,61 +1,160 @@
 import 'package:flutter/material.dart';
+import 'package:gofit/features/gofit/domain/entities/exercise_entity.dart';
+import 'package:gofit/features/gofit/presentation/constants/colors.dart';
+import 'package:gofit/features/gofit/presentation/screens/exercisepage/exercise_page.dart';
 
-class ListViewWidget extends StatelessWidget {
-  final Color color;
-  final String exerciseType;
-  final Text? exerciseName;
-  final int itemCount;
-  final Axis scrollDirection;
-  final double listViewChildWidth;
-  final ScrollPhysics? physics;
-  final void Function()? ontap;
+class VerticalListViewBuilderChild extends StatelessWidget {
+  VerticalListViewBuilderChild({
+    required this.duration,
+    required this.difficulty,
+    required this.exerciseName,
+    required this.data,
+    Key? key,
+  }) : super(key: key);
+  String duration;
+  String difficulty;
+  String exerciseName;
+  ExercisesEntity data;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.only(top: 5, bottom: 25, left: 15, right: 15),
+        margin: const EdgeInsets.only(right: 10, bottom: 10),
+        width: 150,
+        height: 110,
+        decoration:
+            BoxDecoration(color: grey, borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              exerciseName,
+              style: const TextStyle(
+                  color: white, fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "$duration | $difficulty",
+                  style: const TextStyle(
+                    color: white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const Icon(Icons.bookmark_outline, color: white),
+              ],
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExercisePage(data),
+          ),
+        );
+      },
+    );
+  }
+}
 
-  ListViewWidget({
-    this.ontap,
-    this.exerciseName,
-    required this.exerciseType,
-    required this.itemCount,
-    required this.color,
-    required this.scrollDirection,
-    required this.listViewChildWidth,
-    this.physics = const AlwaysScrollableScrollPhysics(),
-  });
+class WorkoutLevelsListViewBuilder extends StatelessWidget {
+  WorkoutLevelsListViewBuilder({
+    Key? key,
+    required this.difficulty,
+    required this.duration,
+  }) : super(key: key);
+  String duration;
+  String difficulty;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(0),
-      shrinkWrap: true,
-      itemCount: itemCount,
-      scrollDirection: scrollDirection,
-      physics: physics,
-      itemBuilder: ((context, index) {
-        return GestureDetector(
-          child: Container(
-            margin: const EdgeInsets.only(right: 10, bottom: 10),
-            width: listViewChildWidth,
-            // height: 100,
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(20)),
-            child: Column(
-              
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 5),
+        margin: const EdgeInsets.only(right: 10, bottom: 10),
+        decoration: BoxDecoration(
+          color: purple,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              " $duration | $difficulty ",
+              style: const TextStyle(color: white),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {},
+    );
+  }
+}
+
+class HorizontalListViewChild extends StatelessWidget {
+  HorizontalListViewChild({
+    Key? key,
+    required this.difficulty,
+    required this.duration,
+    required this.exerciseName,
+    required this.exercise,
+  }) : super(key: key);
+
+  String exerciseName;
+  String duration;
+  String difficulty;
+  ExercisesEntity exercise;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.only(top: 5, bottom: 25, left: 5, right: 5),
+        margin: const EdgeInsets.only(right: 15, bottom: 10),
+        width: 240,
+        height: 240,
+        decoration:
+            BoxDecoration(color: grey, borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              exerciseName,
+              style: const TextStyle(
+                  color: white, fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+            Row(
               children: [
-                Text(exerciseType),
-                Row(
-                  children: [
-                  
-                    Text("    |   "),
-                    Icon(Icons.bookmark_outline),
-                  ],
-                )
+                Text(
+                  " $duration | $difficulty ",
+                  style: const TextStyle(
+                    color: white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const Icon(Icons.bookmark_outline, color: white),
               ],
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExercisePage(
+              exercise,
             ),
           ),
-          onTap: () {
-            ontap;
-          },
         );
-      }),
+      },
     );
   }
 }
